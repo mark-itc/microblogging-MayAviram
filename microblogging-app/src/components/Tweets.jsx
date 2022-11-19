@@ -8,9 +8,9 @@ function Tweets(props) {
       <div className="tweet" key={index}>
         <div className="tweet-date-and-user">
           <div>{item.userName}</div>
-          <div>{item.tweetDate}</div>
+          <div>{item.date}</div>
         </div>
-        <div className="tweet-text">{item.tweetText}</div>
+        <div className="tweet-text">{item.content}</div>
       </div>
     ));
   };
