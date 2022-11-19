@@ -7,7 +7,7 @@ function Tweets(props) {
     return tweetsList.map((item, index) => (
       <div className="tweet" key={index}>
         <div className="tweet-date-and-user">
-          <div>yonatan</div>
+          <div>{item.userName}</div>
           <div>{item.tweetDate}</div>
         </div>
         <div className="tweet-text">{item.tweetText}</div>
