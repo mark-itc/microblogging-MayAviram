@@ -1,0 +1,27 @@
+.tweets {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.tweet {
+  width: 600px;
+  height: 99px;
+  background-color: #343a40;
+  border-radius: 6px;
+  margin-top: 15px;
+  padding: 10px;
+}
+
+.tweet-date-and-user {
+  display: flex;
+  justify-content: space-between;
+  color: #6c757d;
+  margin: 5px;
+}
+
+.tweet-text {
+  margin: 10px 5px;
+  font-size: 14px;
+  overflow-wrap: break-word;
+}
