@@ -1,8 +1,8 @@
 import "../css/CreateTweet.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function CreateTweet(props) {
-  const { createTweet } = props;
+  const { createTweet, loader, error } = props;
 
   const [tweetText, setTweetText] = useState("");
   const [disabledButton, setDisabledButton] = useState(false);
@@ -26,16 +26,23 @@ function CreateTweet(props) {
         ></textarea>
         {disabledButton && (
           <div className="errorMessage">
-            "The tweet can't contain more than 140 chars."
+            The tweet can't contain more than 140 chars
           </div>
         )}
-        <button
-          className="create-tweet-button"
-          onClick={() => createTweet(tweetText)}
-          disabled={disabledButton}
-        >
-          Tweet
-        </button>
+        {error && <div className="errorMessage">{error}</div>}
+        <div className="lader-and-button">
+          <div
+            className="loader"
+            style={loader ? { display: "block" } : { display: "none" }}
+          ></div>
+          <button
+            className="create-tweet-button"
+            onClick={() => createTweet(tweetText)}
+            disabled={disabledButton || loader}
+          >
+            Tweet
+          </button>
+        </div>
       </div>
     </div>
   );

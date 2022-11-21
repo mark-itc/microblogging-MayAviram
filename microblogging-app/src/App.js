@@ -8,10 +8,14 @@ function App() {
   const [tweet, setTweet] = useState("");
   const [userName, setUserName] = useState("yonatan");
   const [dateToday, SetDateToday] = useState(new Date().toISOString());
+  const [loader, setLoader] = useState(false);
+  const [msgError, setMsgError] = useState("");
+
   const url =
     "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet";
 
   const createTweet = (text) => {
+    setLoader(true);
     SetDateToday(new Date().toISOString());
     const newTweet = { content: text, userName: userName, date: dateToday };
     setTweet(newTweet);
@@ -41,9 +45,11 @@ function App() {
               "Content-type": "application/json",
             },
           });
+
           const data = await response.json();
+          setLoader(false);
         } catch (err) {
-          console.log("err: ", err);
+          setMsgError("The tweet is not added");
         }
       };
       postTweetToServer();
@@ -53,7 +59,7 @@ function App() {
 
   return (
     <div className="App">
-      <CreateTweet createTweet={createTweet} />
+      <CreateTweet createTweet={createTweet} loader={loader} error={msgError} />
       <Tweets tweetsList={tweetsList} />
     </div>
   );

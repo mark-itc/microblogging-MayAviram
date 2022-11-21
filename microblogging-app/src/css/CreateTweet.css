@@ -23,18 +23,18 @@
 }
 
 .create-tweet-button {
-  position: absolute;
   background-color: #007bff;
   border: #007bff;
   width: 68px;
   height: 34px;
   border-radius: 4px;
-  bottom: 0;
-  right: 0;
   margin: 10px;
   color: white;
 }
 
+.create-tweet-button:disabled {
+  background-color: #004187;
+}
 .errorMessage {
   position: absolute;
   display: inline;
@@ -45,4 +45,31 @@
   left: 0;
   margin: 10px;
   padding: 5px;
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid #007bff;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+  display: none;
+}
+
+.lader-and-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
