@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.css";
 import CreateTweet from "./components/CreateTweet";
+import Navbar from "./components/Navbar";
 import Tweets from "./components/Tweets";
+import User from "./components/User";
+import { user } from "./context/UserProvider";
+import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 
 function App() {
   const [tweetsList, setTweetsList] = useState([]);
   const [tweet, setTweet] = useState("");
-  const [userName, setUserName] = useState("yonatan");
   const [dateToday, SetDateToday] = useState(new Date().toISOString());
   const [loader, setLoader] = useState(false);
   const [msgError, setMsgError] = useState("");
 
+  const { userName, setUserName } = useContext(user);
   const url =
     "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet";
 
@@ -28,7 +32,7 @@ function App() {
         const data = await response.json();
         setTweetsList(data.tweets);
       } catch (err) {
-        console.log(err);
+        console.log("get error:", err);
       }
     };
     getTweetsFromServer();
@@ -56,11 +60,29 @@ function App() {
       setTweet("");
     }
   }, [tweet]);
-
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <>
+          <CreateTweet
+            createTweet={createTweet}
+            loader={loader}
+            error={msgError}
+          />
+          <Tweets tweetsList={tweetsList} />
+        </>
+      ),
+    },
+    {
+      path: "/Profile",
+      element: <User />,
+    },
+  ]);
   return (
     <div className="App">
-      <CreateTweet createTweet={createTweet} loader={loader} error={msgError} />
-      <Tweets tweetsList={tweetsList} />
+      <Navbar />
+      <RouterProvider router={router} />
     </div>
   );
 }

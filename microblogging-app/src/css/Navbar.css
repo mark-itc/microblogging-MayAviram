@@ -1,0 +1,26 @@
+.navbar {
+  background-color: #343a40;
+  width: 1076px;
+  height: 58px;
+  border-radius: 6px;
+}
+
+.navbar-list {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-list li {
+  padding: 10px;
+  margin: 10px;
+  align-self: center;
+}
+
+.navbar-list li a {
+  color: hsla(0, 0%, 100%, 50%);
+  text-decoration: none;
+}

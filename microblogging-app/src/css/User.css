@@ -1,0 +1,30 @@
+.user {
+  display: flex;
+  justify-content: center;
+}
+
+.user-name-form {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  padding-top: 10px;
+}
+
+.input-user {
+  background-color: initial;
+  border: white 1px solid;
+  border-radius: 4px;
+  height: 61px;
+  color: white;
+}
+
+.button-save-user {
+  background-color: #007bff;
+  border: #007bff;
+  width: 68px;
+  height: 34px;
+  border-radius: 4px;
+  margin: 10px;
+  color: white;
+  align-self: end;
+}
