@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { createContext } from "react";
+import { useState, useEffect, createContext } from "react";
 import localForage from "localforage";
 
 const user = createContext();

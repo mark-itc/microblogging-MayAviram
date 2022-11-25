@@ -1,8 +1,9 @@
 import "../css/CreateTweet.css";
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
+import { tweets } from "../context/TweetsProvider";
 
-function CreateTweet(props) {
-  const { createTweet, loader, error } = props;
+function CreateTweet() {
+  const { createTweet, loader, msgError } = useContext(tweets);
 
   const [tweetText, setTweetText] = useState("");
   const [disabledButton, setDisabledButton] = useState(false);
@@ -29,7 +30,7 @@ function CreateTweet(props) {
             The tweet can't contain more than 140 chars
           </div>
         )}
-        {error && <div className="errorMessage">{error}</div>}
+        {msgError && <div className="errorMessage">{msgError}</div>}
         <div className="lader-and-button">
           <div
             className="loader"

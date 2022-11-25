@@ -1,7 +1,6 @@
 import "../css/User.css";
 import { user } from "../context/UserProvider";
-import { useContext } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 function User() {
   const { userName, setUserName } = useContext(user);

@@ -1,7 +1,9 @@
 import "../css/Tweets.css";
+import { tweets } from "../context/TweetsProvider";
+import { useContext } from "react";
 
-function Tweets(props) {
-  const { tweetsList } = props;
+function Tweets() {
+  const { tweetsList } = useContext(tweets);
 
   const goOverList = () => {
     return tweetsList.map((item, index) => (
