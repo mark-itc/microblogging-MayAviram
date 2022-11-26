@@ -27,13 +27,21 @@ function TweetsProvider({ children }) {
       try {
         const response = await fetch(url);
         const data = await response.json();
-        setTweetsList(data.tweets);
+
+        const dataTweets = data.tweets;
+        dataTweets.sort((tweet1, tweet2) => {
+          return tweet1.date - tweet2.date;
+        });
+        setTweetsList(dataTweets);
       } catch (err) {
         console.log("get error:", err);
       }
     };
     getTweetsFromServer();
-  }, [tweet]);
+    const interval = setInterval(() => {
+      getTweetsFromServer();
+    }, 120000);
+  }, []);
 
   useEffect(() => {
     if (tweet) {
@@ -54,6 +62,7 @@ function TweetsProvider({ children }) {
         }
       };
       postTweetToServer();
+      setTweetsList([tweet, ...tweetsList]);
       setTweet("");
     }
   }, [tweet]);
