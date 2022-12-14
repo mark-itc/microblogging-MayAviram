@@ -18,13 +18,17 @@
   color: white;
 }
 
-.button-save-user {
+button {
   background-color: #007bff;
   border: #007bff;
+  color: white;
+  border-radius: 4px;
+  margin-top: 5px;
+  padding: 5px;
+}
+.button-save-user {
   width: 68px;
   height: 34px;
-  border-radius: 4px;
   margin: 10px;
-  color: white;
   align-self: end;
 }

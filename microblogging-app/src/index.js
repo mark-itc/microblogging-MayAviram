@@ -5,14 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./context/UserProvider";
 import { TweetsProvider } from "./context/TweetsProvider";
+import { AuthProvider } from "./context/AuthProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <UserProvider>
-    <TweetsProvider>
-      <App />
-    </TweetsProvider>
+    <AuthProvider>
+      <TweetsProvider>
+        <App />
+      </TweetsProvider>
+    </AuthProvider>
   </UserProvider>
   // </React.StrictMode>
 );

@@ -7,8 +7,11 @@ function Navbar() {
         <li>
           <a href="/">Home</a>
         </li>
-        <li>
+        {/* <li>
           <a href="/Profile">Profile</a>
+        </li> */}
+        <li>
+          <a href="/Auth">Profile</a>
         </li>
       </ul>
     </div>

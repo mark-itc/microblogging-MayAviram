@@ -3,24 +3,46 @@ import CreateTweet from "./components/CreateTweet";
 import Navbar from "./components/Navbar";
 import Tweets from "./components/Tweets";
 import User from "./components/User";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Auth from "./components/Auth";
+import { authContext } from "./context/AuthProvider";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
+import { useContext } from "react";
 
 function App() {
+  const { userCredential } = useContext(authContext);
+
   const router = createBrowserRouter([
     {
       path: "/",
-      element: (
+      element: userCredential ? (
         <>
           <CreateTweet />
           <Tweets />
         </>
+      ) : (
+        <Navigate replace to={"/Auth"} />
       ),
     },
+
     {
       path: "/Profile",
       element: <User />,
     },
+
+    {
+      path: "/Auth",
+      element: (
+        <>
+          <Auth />
+        </>
+      ),
+    },
   ]);
+
   return (
     <div className="App">
       <Navbar />
