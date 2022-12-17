@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { authContext } from "../context/AuthProvider";
 import GoogleButton from "react-google-button";
+import "../css/User.css";
 
 export function GoogleAuth() {
   const { googleSignIn } = useContext(authContext);

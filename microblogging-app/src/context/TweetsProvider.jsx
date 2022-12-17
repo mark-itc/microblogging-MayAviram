@@ -1,7 +1,14 @@
 import { useState, createContext, useContext, useEffect } from "react";
-import { user } from "./UserProvider";
+import { authContext } from "./AuthProvider.jsx";
 import { db } from "../firebase.js";
-import { collection, getDocs, addDoc, Timestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  Timestamp,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
 
 const tweets = createContext();
 
@@ -13,16 +20,20 @@ function TweetsProvider({ children }) {
   const [tweet, setTweet] = useState("");
   const [dateToday, SetDateToday] = useState(Timestamp.fromDate(new Date()));
 
-  const { userName } = useContext(user);
+  const { userCredential } = useContext(authContext);
 
   const tweetsCollection = collection(db, "tweets");
+  const tweetsCollectionSort = query(tweetsCollection, orderBy("date", "desc"));
 
   const createTweet = (text) => {
     setLoader(true);
     if (text) {
       SetDateToday(Timestamp.fromDate(new Date()));
-
-      const newTweet = { content: text, userName: userName, date: dateToday };
+      const newTweet = {
+        content: text,
+        userName: userCredential.uid,
+        date: dateToday,
+      };
       setTweet(newTweet);
     } else {
       setMsgError("Empty content. The tweet is not added");
@@ -34,26 +45,23 @@ function TweetsProvider({ children }) {
   };
 
   useEffect(() => {
-    const getTweetsFromServer = async () => {
+    const getTweetsFromServer = () => {
       try {
-        const tweetsDocsList = await getDocs(tweetsCollection);
-        const dataTweets = tweetsDocsList.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-
-        dataTweets.sort((tweet1, tweet2) => {
-          return tweet2.date - tweet1.date;
+        onSnapshot(tweetsCollectionSort, (snapshot) => {
+          const dataTweets = [];
+          snapshot.docs.forEach((doc) =>
+            dataTweets.push({
+              ...doc.data(),
+              id: doc.id,
+            })
+          );
+          setTweetsList(dataTweets);
         });
-        setTweetsList(dataTweets);
       } catch (err) {
-        console.log("get error:", err);
+        setMsgError(err);
       }
     };
     getTweetsFromServer();
-    const interval = setInterval(() => {
-      getTweetsFromServer();
-    }, 120000);
   }, []);
 
   useEffect(() => {
@@ -64,6 +72,10 @@ function TweetsProvider({ children }) {
           setLoader(false);
         } catch (err) {
           setMsgError("The tweet is not added");
+          setTimeout(() => {
+            setLoader(false);
+            setMsgError("");
+          }, 3000);
         }
       };
       postTweetToServer();

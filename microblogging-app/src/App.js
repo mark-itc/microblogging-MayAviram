@@ -2,7 +2,6 @@ import "./App.css";
 import CreateTweet from "./components/CreateTweet";
 import Navbar from "./components/Navbar";
 import Tweets from "./components/Tweets";
-import User from "./components/User";
 import Auth from "./components/Auth";
 import { authContext } from "./context/AuthProvider";
 import {
@@ -26,11 +25,6 @@ function App() {
       ) : (
         <Navigate replace to={"/Auth"} />
       ),
-    },
-
-    {
-      path: "/Profile",
-      element: <User />,
     },
 
     {
