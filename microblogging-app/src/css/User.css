@@ -32,3 +32,11 @@ button {
   margin: 10px;
   align-self: end;
 }
+
+img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  border-radius: 50%;
+}

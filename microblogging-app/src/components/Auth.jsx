@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { authContext } from "../context/AuthProvider";
 import GoogleButton from "react-google-button";
+import Profile from "./Profile";
 import "../css/User.css";
 
 export function GoogleAuth() {
@@ -80,8 +81,7 @@ export function EmailAndPasswordAuth() {
   );
 }
 export default function Auth() {
-  const { userCredential, SignOut, errorCode, errorMessage } =
-    useContext(authContext);
+  const { userCredential, errorCode, errorMessage } = useContext(authContext);
 
   return (
     <div>
@@ -96,19 +96,7 @@ export default function Auth() {
           </div>
         </div>
       ) : (
-        <div>
-          {/* <h2>hello, {userCredential ? userCredential.email : "guest"}</h2> */}
-          <h2>hello, {userCredential.email}</h2>
-
-          <button
-            className="button-save-user"
-            onClick={() => {
-              SignOut();
-            }}
-          >
-            log out
-          </button>
-        </div>
+        <Profile />
       )}
     </div>
   );

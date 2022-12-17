@@ -8,6 +8,7 @@ import {
   onSnapshot,
   query,
   orderBy,
+  limit,
 } from "firebase/firestore";
 
 const tweets = createContext();
@@ -24,6 +25,11 @@ function TweetsProvider({ children }) {
 
   const tweetsCollection = collection(db, "tweets");
   const tweetsCollectionSort = query(tweetsCollection, orderBy("date", "desc"));
+  // const tweetsCollectionSort = query(
+  //   tweetsCollection,
+  //   orderBy("date", "desc"),
+  //   limit(3)
+  // );
 
   const createTweet = (text) => {
     setLoader(true);

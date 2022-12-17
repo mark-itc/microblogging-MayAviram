@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -20,6 +21,7 @@ function AuthProvider({ children }) {
   const [userPassword, setUserPassword] = useState();
   const [errorCode, setErrorCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [photoURL, setPhotoURL] = useState(null);
 
   const provider = new GoogleAuthProvider();
 
@@ -78,6 +80,19 @@ function AuthProvider({ children }) {
     });
   }, []);
 
+  useEffect(() => {
+    if (photoURL) {
+      const updateProfileImage = async () => {
+        try {
+          await updateProfile(auth.currentUser, { photoURL: photoURL });
+        } catch (err) {
+          console.log("An error occurred");
+        }
+      };
+      updateProfileImage();
+    }
+  }, [photoURL]);
+
   return (
     <authContext.Provider
       value={{
@@ -92,6 +107,7 @@ function AuthProvider({ children }) {
         setUserPassword,
         errorCode,
         errorMessage,
+        setPhotoURL,
       }}
     >
       {children}
