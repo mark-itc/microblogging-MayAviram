@@ -9,6 +9,8 @@ import {
   query,
   orderBy,
   limit,
+  startAfter,
+  getDocs,
 } from "firebase/firestore";
 
 const tweets = createContext();
@@ -22,14 +24,34 @@ function TweetsProvider({ children }) {
   const [dateToday, SetDateToday] = useState(Timestamp.fromDate(new Date()));
 
   const { userCredential } = useContext(authContext);
-
   const tweetsCollection = collection(db, "tweets");
-  const tweetsCollectionSort = query(tweetsCollection, orderBy("date", "desc"));
-  // const tweetsCollectionSort = query(
-  //   tweetsCollection,
-  //   orderBy("date", "desc"),
-  //   limit(3)
-  // );
+
+  let tweetsCollectionSort = query(
+    tweetsCollection,
+    orderBy("date", "desc"),
+    limit(10)
+  );
+
+  const [latestDoc, setLatestDoc] = useState(null);
+  let data = null;
+  const loadMoreTweets = async () => {
+    tweetsCollectionSort = query(
+      tweetsCollection,
+      orderBy("date", "desc"),
+      startAfter(latestDoc),
+      limit(10)
+    );
+    data = await getDocs(tweetsCollectionSort);
+    let dataTweets = [];
+    data.docs.forEach((doc) =>
+      dataTweets.push({
+        ...doc.data(),
+        id: doc.id,
+      })
+    );
+    setLatestDoc(data.docs[data.docs.length - 1]);
+    setTweetsList([...tweetsList, ...dataTweets]);
+  };
 
   const createTweet = (text) => {
     setLoader(true);
@@ -61,6 +83,8 @@ function TweetsProvider({ children }) {
               id: doc.id,
             })
           );
+
+          setLatestDoc(snapshot.docs[snapshot.docs.length - 1]);
           setTweetsList(dataTweets);
         });
       } catch (err) {
@@ -91,7 +115,9 @@ function TweetsProvider({ children }) {
   }, [tweet]);
 
   return (
-    <tweets.Provider value={{ tweetsList, loader, msgError, createTweet }}>
+    <tweets.Provider
+      value={{ tweetsList, loader, msgError, createTweet, loadMoreTweets }}
+    >
       {children}
     </tweets.Provider>
   );

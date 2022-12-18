@@ -1,9 +1,10 @@
 import "../css/Tweets.css";
 import { tweets } from "../context/TweetsProvider";
 import { useContext } from "react";
+import { useEffect } from "react";
 
 function Tweets() {
-  const { tweetsList } = useContext(tweets);
+  const { tweetsList, loadMoreTweets } = useContext(tweets);
   const goOverList = () => {
     return tweetsList.map((item, index) => (
       <div className="tweet" key={index}>
@@ -16,7 +17,30 @@ function Tweets() {
     ));
   };
 
-  return <div className="tweets">{tweetsList ? goOverList() : null}</div>;
+  // const scrollFunc = (e) => {
+  //   if (
+  //     window.innerHeight + e.target.documentElement.scrollTop >=
+  //     e.target.documentElement.scrollHeight
+  //   ) {
+  //     loadMoreTweets();
+  //   }
+  // };
+  // useEffect(() => {
+  //   loadMoreTweets();
+  //   window.addEventListener("scroll", scrollFunc);
+  // }, []);
+  return (
+    <div className="tweets">
+      {tweetsList ? goOverList() : null}
+      <button
+        onClick={() => {
+          loadMoreTweets();
+        }}
+      >
+        load more
+      </button>
+    </div>
+  );
 }
 
 export default Tweets;
